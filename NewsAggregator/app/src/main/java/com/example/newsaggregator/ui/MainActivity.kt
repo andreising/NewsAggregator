@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.newsaggregator.data.rss.RssFeed
+import com.example.newsaggregator.data.rss.api.RssFeedApi
 import com.example.newsaggregator.ui.theme.NewsAggregatorTheme
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ private val retrofit = Retrofit.Builder()
         )
     ).build()
 
-private val guardian = retrofit.create(RssFeed::class.java)
+private val guardian = retrofit.create(RssFeedApi::class.java)
 
 class MainActivity : ComponentActivity() {
 
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
 fun Greeting(
     text: String,
     modifier: Modifier = Modifier,
-    feed: RssFeed,
+    feed: RssFeedApi,
 ) {
     val scope = rememberCoroutineScope()
     Button(
