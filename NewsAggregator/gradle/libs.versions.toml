@@ -1,5 +1,7 @@
 [versions]
 agp = "8.7.2"
+coilCompose = "3.2.0"
+coilComposeVersion = "2.6.0"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.0"
 coreKtx = "1.16.0"
@@ -16,7 +18,7 @@ xmlUtil = "0.91.0"
 room = "2.6.1"
 hilt-version = "2.49"
 ksp-version = "2.0.0-1.0.24"
-coilVersion = "1.4.0"
+coilVersion = "2.6.0"
 recyclerviewVersion = "1.2.1"
 navigationUiKtx = "2.8.7"
 kotlinxCoroutines = "1.9.0"
@@ -24,6 +26,8 @@ kotlinxCoroutines = "1.9.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-kt-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilComposeVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

@@ -95,7 +95,10 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
-    // recycler
-    implementation(libs.androidx.recyclerview)
+    // test
     testImplementation(kotlin("test"))
+
+    //coil compose
+    implementation(libs.coil)
+    implementation(libs.coil.kt.coil.compose)
 }
