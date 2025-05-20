@@ -2,7 +2,7 @@ package com.example.newsaggregator.data.rss.utils
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import nl.adaptivity.xmlutil.serialization.XML
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
 object RetrofitProvider {
@@ -12,7 +12,7 @@ object RetrofitProvider {
         .baseUrl(BASE_URL)
         .addConverterFactory(
             XML.asConverterFactory(
-                MediaType.get("application/xml; charset=UTF8")
+                "application/xml; charset=UTF8".toMediaType()
             )
         ).build()
 }
