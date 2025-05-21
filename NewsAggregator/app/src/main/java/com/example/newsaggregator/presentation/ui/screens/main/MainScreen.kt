@@ -1,6 +1,7 @@
 package com.example.newsaggregator.presentation.ui.screens.main
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,12 +29,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.newsaggregator.domain.model.ArticleMainModel
+import com.example.newsaggregator.presentation.navigation.Screen
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
-fun MainScreen() {
+fun MainScreen(navHostController: NavHostController) {
     val context = LocalContext.current
     val viewModel: MainScreenViewModel = hiltViewModel()
 
@@ -49,20 +54,29 @@ fun MainScreen() {
             Text(
                 text = "Latest News",
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
         }
-        items(articles.value) {article ->
-            ArticleCard(article, context)
+        items(articles.value) { article ->
+            ArticleCard(article, context) {
+                val encodedUrl = URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
+                navHostController.navigate(Screen.WebViewScreen.route + "?url=$encodedUrl")
+            }
         }
     }
 }
 
 @Composable
-private fun ArticleCard(article: ArticleMainModel, context: android.content.Context) {
+private fun ArticleCard(
+    article: ArticleMainModel,
+    context: android.content.Context,
+    onClick: (String) -> Unit
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable{onClick.invoke(article.link)},
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

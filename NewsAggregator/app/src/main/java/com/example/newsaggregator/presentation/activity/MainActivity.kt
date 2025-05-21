@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.newsaggregator.presentation.navigation.AppNavigation
 import com.example.newsaggregator.presentation.navigation.Screen
 import com.example.newsaggregator.presentation.ui.screens.main.MainScreen
+import com.example.newsaggregator.presentation.ui.screens.webview.WebViewScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +20,8 @@ class MainActivity : ComponentActivity() {
             AppNavigation(
                 navHostController = navHostController,
                 startDestination = Screen.MainScreen.route,
-                mainScreen = { MainScreen() }
+                mainScreen = { MainScreen(navHostController) },
+                webViewScreen = { WebViewScreen() }
             )
         }
     }

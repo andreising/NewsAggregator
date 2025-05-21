@@ -101,4 +101,7 @@ dependencies {
     //coil compose
     implementation(libs.coil)
     implementation(libs.coil.kt.coil.compose)
+
+    //compose webview
+    implementation (libs.compose.webview)
 }
