@@ -104,4 +104,7 @@ dependencies {
 
     //compose webview
     implementation (libs.compose.webview)
+
+    // jsoup
+    implementation(libs.jsoup)
 }
