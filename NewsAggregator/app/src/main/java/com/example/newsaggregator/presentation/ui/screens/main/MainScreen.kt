@@ -81,23 +81,25 @@ private fun ArticleCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.Top) {
-                AsyncImage(
-                    model = ImageRequest.Builder(context)
-                        .data(article.imageUrl)
-                        .crossfade(true)
-                        .listener(
-                            onStart = { Log.d("tag", "start") },
-                            onSuccess = { _, _ -> Log.d("tag", "success") },
-                            onError = { _, r -> Log.d("tag", r.throwable.message.toString()) }
-                        )
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(width = 120.dp, height = 90.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .padding(end = 12.dp),
-                    contentScale = ContentScale.Crop
-                )
+                article.imageUrl?.let {
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(it)
+                            .crossfade(true)
+                            .listener(
+                                onStart = { Log.d("tag", "start") },
+                                onSuccess = { _, _ -> Log.d("tag", "success") },
+                                onError = { _, r -> Log.d("tag", r.throwable.message.toString()) }
+                            )
+                            .build(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(width = 120.dp, height = 90.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .padding(end = 12.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(

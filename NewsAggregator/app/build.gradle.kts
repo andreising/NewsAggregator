@@ -97,6 +97,7 @@ dependencies {
 
     // test
     testImplementation(kotlin("test"))
+    testImplementation(libs.mockk)
 
     //coil compose
     implementation(libs.coil)
