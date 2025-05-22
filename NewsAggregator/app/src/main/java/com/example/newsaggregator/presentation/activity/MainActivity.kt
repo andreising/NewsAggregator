@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                 navHostController = navHostController,
                 startDestination = Screen.MainScreen.route,
                 mainScreen = { MainScreen(navHostController) },
-                webViewScreen = { WebViewScreen() }
+                webViewScreen = { WebViewScreen{ navHostController.popBackStack() } }
             )
         }
     }

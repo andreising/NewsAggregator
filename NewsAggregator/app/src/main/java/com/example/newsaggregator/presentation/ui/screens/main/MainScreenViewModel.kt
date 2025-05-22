@@ -1,14 +1,13 @@
 package com.example.newsaggregator.presentation.ui.screens.main
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsaggregator.domain.local.room.usecases.GetArticleListLocalUseCase
 import com.example.newsaggregator.domain.local.room.usecases.SaveArticlesUseCase
-import com.example.newsaggregator.domain.model.ArticleMainModel
 import com.example.newsaggregator.domain.remote.usecases.GetArticlesListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,24 +16,38 @@ class MainScreenViewModel @Inject constructor(
     private val getArticleUseCase: GetArticlesListUseCase,
     private val getArticlesListLocalUseCase: GetArticleListLocalUseCase,
     private val saveArticlesListUseCase: SaveArticlesUseCase
-): ViewModel() {
+) : ViewModel() {
 
-    private val _articles = MutableStateFlow(emptyList<ArticleMainModel>())
-    val articles: StateFlow<List<ArticleMainModel>> = _articles
+    private val _mainScreenEventState = mutableStateOf<MainScreenEvent>(MainScreenEvent.Loading)
+    val mainScreenEventState: State<MainScreenEvent> = _mainScreenEventState
 
-    init {
+    private fun setScreenState(state: MainScreenEvent) {
+        _mainScreenEventState.value = state
+    }
+
+    fun loadNews() {
         viewModelScope.launch {
+            setScreenState(MainScreenEvent.Loading)
             val operationResult = getArticleUseCase.invoke()
             if (operationResult.isSuccess) {
                 operationResult.getOrNull()?.let {
                     launch {
                         saveArticlesListUseCase.invoke(it)
                     }
-                    _articles.value = it
+                    setScreenState(MainScreenEvent.Success(it))
                 }
             } else {
-                _articles.value = getArticlesListLocalUseCase.invoke()
+                setScreenState(
+                    MainScreenEvent.Error(
+                        message = "Network error, try again",
+                        localList = getArticlesListLocalUseCase.invoke()
+                    )
+                )
             }
         }
+    }
+
+    init {
+        loadNews()
     }
 }
