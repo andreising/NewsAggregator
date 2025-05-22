@@ -21,6 +21,18 @@ class MainScreenViewModel @Inject constructor(
     private val _mainScreenEventState = mutableStateOf<MainScreenEvent>(MainScreenEvent.Loading)
     val mainScreenEventState: State<MainScreenEvent> = _mainScreenEventState
 
+    private val _searchQuery = mutableStateOf("")
+    val searchQuery: State<String> = _searchQuery
+
+    fun onSearchQueryChange(newValue: String) {
+        if (newValue.length>20) return
+        _searchQuery.value = newValue
+    }
+
+    fun clearQueryChange() {
+        _searchQuery.value = ""
+    }
+
     private fun setScreenState(state: MainScreenEvent) {
         _mainScreenEventState.value = state
     }
