@@ -26,14 +26,22 @@ fun MainScreen(navHostController: NavHostController) {
         onRefresh = { viewModel.loadNews() }
     ) {
         when (val currentState = state) {
-            is MainScreenEvent.Loading -> { MaxSizeLoadingIndicator() }
+            is MainScreenEvent.Loading -> {
+                MaxSizeLoadingIndicator()
+            }
 
             is MainScreenEvent.Success -> {
-                ArticlesList(currentState.list, onClick = { article ->
-                    val encodedUrl =
-                        URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
-                    navHostController.navigate(Screen.WebViewScreen.route + "?url=$encodedUrl")
-                })
+                ArticlesList(
+                    currentState.list,
+                    onClick = { article ->
+                        val encodedUrl =
+                            URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
+                        navHostController.navigate(Screen.WebViewScreen.route + "?url=$encodedUrl")
+                    },
+                    onSearchChange = { viewModel.onSearchQueryChange(it) },
+                    searchQuery = viewModel.searchQuery.value,
+                    clearTextField = { viewModel.clearQueryChange() }
+                )
             }
 
             is MainScreenEvent.Error -> {
@@ -43,7 +51,12 @@ fun MainScreen(navHostController: NavHostController) {
                 ) {
                     Text(currentState.message)
                     Spacer(modifier = Modifier.height(8.dp))
-                    ArticlesList(currentState.localList) { article ->
+                    ArticlesList(
+                        currentState.localList,
+                        searchQuery = viewModel.searchQuery.value,
+                        onSearchChange = { viewModel.onSearchQueryChange(it) },
+                        clearTextField = { viewModel.clearQueryChange() }
+                    ) { article ->
                         val encodedUrl =
                             URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
                         navHostController.navigate(Screen.WebViewScreen.route + "?url=$encodedUrl")
