@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
@@ -20,7 +22,11 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun MainScreen(navHostController: NavHostController) {
     val viewModel: MainScreenViewModel = hiltViewModel()
-    val state by viewModel.mainScreenEventState
+    val state by viewModel.mainScreenEventState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadNews()
+    }
 
     MainScreenScaffold(
         onRefresh = { viewModel.loadNews() }

@@ -8,6 +8,8 @@ import com.example.newsaggregator.domain.local.room.usecases.GetArticleListLocal
 import com.example.newsaggregator.domain.local.room.usecases.SaveArticlesUseCase
 import com.example.newsaggregator.domain.remote.usecases.GetArticlesListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,14 +20,14 @@ class MainScreenViewModel @Inject constructor(
     private val saveArticlesListUseCase: SaveArticlesUseCase
 ) : ViewModel() {
 
-    private val _mainScreenEventState = mutableStateOf<MainScreenEvent>(MainScreenEvent.Loading)
-    val mainScreenEventState: State<MainScreenEvent> = _mainScreenEventState
+    private val _mainScreenEventState = MutableStateFlow<MainScreenEvent>(MainScreenEvent.Loading)
+    val mainScreenEventState: StateFlow<MainScreenEvent> = _mainScreenEventState
 
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
 
     fun onSearchQueryChange(newValue: String) {
-        if (newValue.length>20) return
+        if (newValue.length > 20) return
         _searchQuery.value = newValue
     }
 
@@ -57,9 +59,5 @@ class MainScreenViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    init {
-        loadNews()
     }
 }
